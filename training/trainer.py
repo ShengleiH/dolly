@@ -186,6 +186,7 @@ def train(
     epochs: int,
     per_device_train_batch_size: int,
     per_device_eval_batch_size: int,
+    gradient_accumulation_steps: int,
     lr: float,
     seed: int,
     deepspeed: str,
@@ -237,8 +238,9 @@ def train(
         output_dir=local_output_dir,
         per_device_train_batch_size=per_device_train_batch_size,
         per_device_eval_batch_size=per_device_eval_batch_size,
-        fp16=False,
-        bf16=bf16,
+        gradient_accumulation_steps=gradient_accumulation_steps,
+        fp16=True,
+        bf16=False,
         learning_rate=lr,
         num_train_epochs=epochs,
         deepspeed=deepspeed,
@@ -290,6 +292,7 @@ def train(
 @click.option("--epochs", type=int, default=3, help="Number of epochs to train for.")
 @click.option("--per-device-train-batch-size", type=int, default=8, help="Batch size to use for training.")
 @click.option("--per-device-eval-batch-size", type=int, default=8, help="Batch size to use for evaluation.")
+@click.option("--gradient_accumulation_steps", type=int, default=1)
 @click.option(
     "--test-size", type=int, default=1000, help="Number of test records for evaluation, or ratio of test records."
 )
